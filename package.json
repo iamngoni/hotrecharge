@@ -1,5 +1,5 @@
 {
-  "name": "hot-recharge",
+  "name": "hotrecharge",
   "version": "1.0.0",
   "description": "Hot Recharge Service",
   "main": "server.js",

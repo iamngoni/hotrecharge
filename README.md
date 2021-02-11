@@ -16,14 +16,14 @@ The library has a set of prerequisites that must be met for it to work
 Install the library using either npm or yarn
 
 ```sh
-$ npm install --save hot-recharge
+$ npm install --save hotrecharge
 ```
 
 ## Usage
 
 #### Import the library
 ```javascript
-const HotRecharge = require("hot-recharge").HotRecharge;
+const HotRecharge = require("hotrecharge").HotRecharge;
 ```
 
 #### Declare and instantiate a new instance of HotRecharge
