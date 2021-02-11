@@ -54,7 +54,6 @@ export default class HotRecharge {
    * Get agent wallet balance 
    */
   async getAgentWalletBalance () {
-    this.autoUpdateReference();
     // set url to point to wallet balance endpoint
     this.url = this.root_endpoint + this.api_version + this.wallet_balance;
     // process the request with axios
@@ -66,7 +65,6 @@ export default class HotRecharge {
    * @param mobile_number End user mobile number
    */
   async getEndUserBalance (mobile_number: string) {
-    this.autoUpdateReference();
     this.url = this.root_endpoint + this.api_version + this.end_user_balance + mobile_number;
     return await this.processHttpsGetRequest();
   }
@@ -79,7 +77,6 @@ export default class HotRecharge {
    * @param message Optional: Customer sms to send
    */
   async pinlessRecharge (amount: Number, mobile_number: string, brandId: string = null, message: Object = null) {
-    this.autoUpdateReference();
     let payload: Object = {
       "amount": amount,
       "targetMobile": mobile_number
@@ -91,38 +88,38 @@ export default class HotRecharge {
     return await this.processHttpsPostRequest(payload);
   }
 
+  /**
+   * 
+   * @param product_code Bundle product code e.g. DWB15 for weekly data bundle - ECONET
+   * @param mobile_number Mobile number to recharge
+   * @param message Optional: customer sms to send
+   */
+  async dataBundleRecharge (product_code: string, mobile_number: string, message: Object = null) {
+    let payload = {
+      "productcode": product_code,
+      "targetMobile": mobile_number
+    };
+
+    this.url = this.root_endpoint + this.api_version + this.recharge_data;
+    return await this.processHttpsPostRequest(payload);
+  }
+
+  async getDataBundlesBalance () {
+    this.url = this.root_endpoint + this.api_version + this.get_data_bundle;
+    return await this.processHttpsGetRequest();
+  }
+
   // private methods
 
   /**
-   * Process the GET request
-   */
+ * Process the GET request
+ */
   private async processHttpsGetRequest () {
+    this.autoUpdateReference();
     try {
       let response = await axios.get(this.url,{
         headers: this.headers,
-        timeout: 45,
-        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
-      });
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      // Check if response is a request authorization error
-      if (error.response.status === 401) {
-        return new AuthorizationError(error.response.data.Message);
-      }
-    }
-  }
-
-  /**
-   * Process the POST request
-   * @param data Data to post with the request
-   */
-  private async processHttpsPostRequest (data: Object) {
-    try {
-      let response = await axios.post(this.url,{
-        headers: this.headers,
-        data: data,
-        timeout: 45,
+        timeout: 45000,
         timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
       });
       return response.data;
@@ -137,6 +134,29 @@ export default class HotRecharge {
   }
 
   /**
+   * Process the POST request
+   * @param data Data to post with the request
+   */
+  private async processHttpsPostRequest (data: Object) {
+    this.autoUpdateReference();
+    try {
+      let response = await axios.post(this.url, data, {
+        headers: this.headers,
+        timeout: 45000,
+        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
+      });
+      return response.data;
+    } catch (error) {
+      // Check if response is a request authorization error
+      if (error.response.status === 401) {
+        return new AuthorizationError(error.response.data.Message);
+      }
+  
+      return error.response.data;
+    }
+  }
+
+  /**
    * 
    * @param length Length of the random string to be generated
    * @returns Returns random string of specified length
@@ -146,9 +166,9 @@ export default class HotRecharge {
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      // result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      result += Math.floor(Math.random() * 10);
     }
-    console.log(result);
     return result;
   }
 
