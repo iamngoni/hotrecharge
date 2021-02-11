@@ -1,8 +1,8 @@
 {
   "name": "hotrecharge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hot Recharge Service",
-  "main": "server.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "document": "typedoc --out docs src"

@@ -9,7 +9,7 @@
   },
   "include": [
     "src"
-  ],
+, "file.js"  ],
   "exclude": [
     "node_modules",
     "**/__tests__/*",

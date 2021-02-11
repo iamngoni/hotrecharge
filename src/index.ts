@@ -1,2 +1,1 @@
-import HotRecharge from './service/hotrecharge';
-export default HotRecharge;
+export {default as HotRecharge} from './service/hotrecharge';
