@@ -42,7 +42,7 @@ const hotrecharge = new HotRecharge({
 #### Make a pinless recharge transaction
 
 ```javascript
-hotrecharge.pinlessRecharge(10, '0713700601').then(function (data) {
+hotrecharge.pinLessRecharge(10, '0713700601').then(function (data) {
   console.log(data);
 });
 ```

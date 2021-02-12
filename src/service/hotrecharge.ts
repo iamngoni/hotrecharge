@@ -79,48 +79,52 @@ export default class HotRecharge {
    * @param brandId Optional
    * @param message Optional: Customer sms to send
    */
-  async pinlessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: object = null) {
+  async pinLessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: object = null) {
     const payload: object = {
       "amount": amount,
       "targetMobile": mobileNumber
     };
-    this.url = this.root_endpoint + this.apiVersion + this.rechargePinless;
+    this.url = this.rootEndpoint + this.apiVersion + this.rechargePinless;
     return await this.processHttpsPostRequest(payload);
   }
 
   /**
    * 
-   * @param product_code Bundle product code e.g. DWB15 for weekly data bundle - ECONET
-   * @param mobile_number Mobile number to recharge
+   * @param productCode Bundle product code e.g. DWB15 for weekly data bundle - ECONET
+   * @param mobileNumber Mobile number to recharge
    * @param message Optional: customer sms to send
    */
-  async dataBundleRecharge (product_code: string, mobile_number: string, message: Object = null) {
-    let payload = {
-      "productcode": product_code,
-      "targetMobile": mobile_number
+  async dataBundleRecharge (productCode: string, mobileNumber: string, message: object = null) {
+    const payload = {
+      "productcode": productCode,
+      "targetMobile": mobileNumber
     };
 
-    this.url = this.root_endpoint + this.apiVersion + this.rechargeData;
+    this.url = this.rootEndpoint + this.apiVersion + this.rechargeData;
     return await this.processHttpsPostRequest(payload);
   }
 
+  /**
+   * Get Data Bundles Balance
+   */
   async getDataBundlesBalance () {
-    this.url = this.root_endpoint + this.apiVersion + this.getDataBundle;
+    this.url = this.rootEndpoint + this.apiVersion + this.getDataBundle;
     return await this.processHttpsGetRequest();
   }
 
   // private methods
 
   /**
- * Process the GET request
- */
+   * Process Get Request With Axios
+   * @private
+   */
   private async processHttpsGetRequest () {
     // check if user wants reference to be updated automatically
     if (this.useRandomReference) {
       this.autoUpdateReference();
     }
     try {
-      let response = await axios.get(this.url,{
+      const response = await axios.get(this.url,{
         headers: this.headers,
         timeout: 45000,
         timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
@@ -137,16 +141,17 @@ export default class HotRecharge {
   }
 
   /**
-   * Process the POST request
-   * @param data Data to post with the request
+   * Process Post Request With Axios
+   * @param data Data to prost with request
+   * @private
    */
-  private async processHttpsPostRequest (data: Object) {
+  private async processHttpsPostRequest (data: object) {
     // check if user wants reference to be updated automatically
     if (this.useRandomReference) {
       this.autoUpdateReference();
     }
     try {
-      let response = await axios.post(this.url, data, {
+      const response = await axios.post(this.url, data, {
         headers: this.headers,
         timeout: 45000,
         timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
@@ -167,7 +172,7 @@ export default class HotRecharge {
    * @param length Length of the random string to be generated
    * @returns Returns random string of specified length
    */
-  private generateReference(length: Number): string {
+  private generateReference(length: number): string {
     let result = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
