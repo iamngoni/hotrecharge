@@ -2,6 +2,7 @@ import axios from "axios";
 import Credentials from "../interfaces/credentials";
 import Headers from "../interfaces/headers";
 import AuthorizationError from '../types/unauthorized';
+import GeneralError from '../types/error';
 
 export default class HotRecharge {
   private root_endpoint: string = 'https://ssl.hot.co.zw';
@@ -31,7 +32,7 @@ export default class HotRecharge {
    * @constructor
    * @param agent_details [Credentials]
    */
-  constructor (agent_details: Credentials, use_random_reference: Boolean = true) {
+  constructor (agent_details: Credentials, use_random_reference: boolean = true) {
     if (agent_details.reference && agent_details.reference.length > 50) {
       throw new Error('Agent Reference Must Not Exceed 50 Characters');
     }
@@ -152,7 +153,7 @@ export default class HotRecharge {
         return new AuthorizationError(error.response.data.Message);
       }
   
-      return new GeneralError();
+      return new GeneralError(error.response.data);
     }
   }
 
