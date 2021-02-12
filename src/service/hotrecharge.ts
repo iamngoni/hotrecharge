@@ -40,7 +40,7 @@ export default class HotRecharge {
     this.headers["x-access-password"] = agent_details.password;
     this.headers["x-agent-reference"] = use_random_reference ? this.generateReference(5) : agent_details.reference;
     this.headers["content-type"] = this.content_type;
-    this.headers['cache-control'] = 'no-cache';
+    this.headers["cache-control"] = 'no-cache';
   }
 
   /**
