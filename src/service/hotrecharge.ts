@@ -5,8 +5,11 @@ import AuthorizationError from '../types/unauthorized';
 import GeneralError from '../types/error';
 
 export default class HotRecharge {
+  /** HotRecharge server endpoint */
   private rootEndpoint: string = 'https://ssl.hot.co.zw';
+  /** Api version */
   private apiVersion: string = '/api/v1/';
+  /** Content-type for Https requests */
   private contentType: string = 'application/json';
 
   // Endpoints
