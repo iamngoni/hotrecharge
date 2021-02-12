@@ -167,8 +167,8 @@ export default class HotRecharge {
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-      // result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      result += Math.floor(Math.random() * 10);
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      // result += Math.floor(Math.random() * 10);
     }
     return result;
   }
