@@ -16,17 +16,19 @@ The library has a set of prerequisites that must be met for it to work
 Install the library using either npm or yarn
 
 ```sh
-$ npm install --save hotrecharge
+$ npm install hotrecharge --save
 ```
 
 ## Usage
 
 #### Import the library
+
 ```javascript
 const HotRecharge = require("hotrecharge").HotRecharge;
 ```
 
 #### Declare and instantiate a new instance of HotRecharge
+
 ```javascript
 const hotrecharge = new HotRecharge({
   email: 'email address',
@@ -38,11 +40,19 @@ const hotrecharge = new HotRecharge({
 > The ref is optional but if it's present then the last parameter has to be set to false - so that auto generation of references is blocked
 
 #### Make a pinless recharge transaction
+
 ```javascript
 hotrecharge.pinlessRecharge(10, '0713700601').then(function (data) {
   console.log(data);
 });
 ```
 
+> For each request the reference has to be unique and setting use_random_reference to false will require you to do the following for each subsequent request
+
+``` javascript
+hotrecharge.updateReference('unique merchant reference');
+```
+
+> Using the same reference will result in request failure
 
 ##### By Ngonidzashe Mangudya (Python Port from @donnC)
