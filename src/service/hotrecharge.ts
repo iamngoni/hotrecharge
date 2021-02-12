@@ -130,7 +130,7 @@ export default class HotRecharge {
         return new AuthorizationError(error.response.data.Message);
       }
 
-      return error.response.data;
+      return new GeneralError(error.response.data);
     }
   }
 
