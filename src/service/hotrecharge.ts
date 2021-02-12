@@ -24,14 +24,14 @@ export default class HotRecharge {
   private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
   private url: string = '';
-  private useRandomReference: boolean = true;
+  private readonly useRandomReference: boolean = true;
 
   /**
-   * Hot Recharge Web Service Library (Node.js)
-   * Ngonidzashe Mangudya
-   * 
+   * Hot Recharge Web Service
+   * Author: Ngonidzashe Mangudya <imngonii@gmail.com>
+   * @param agentDetails {Credentials} Agent details - Email Address, Password And|Or Merchant Reference
+   * @param useRandomReference {boolean}
    * @constructor
-   * @param agentDetails [Credentials]
    */
   constructor (agentDetails: Credentials, useRandomReference: boolean = true) {
     if (agentDetails.reference && agentDetails.reference.length > 50) {
@@ -168,23 +168,24 @@ export default class HotRecharge {
   }
 
   /**
-   * 
-   * @param length Length of the random string to be generated
-   * @returns Returns random string of specified length
+   * Generate random merchant reference
+   * @param length Length of reference to be generated
+   * @returns Unique merchant reference
+   * @private
    */
   private generateReference(length: number): string {
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
+    let result: string = '';
+    const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength: number = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      // result += Math.floor(Math.random() * 10);
     }
     return result;
   }
 
   /**
-   * Auto update the merchant reference
+   * Auto update merchant reference
+   * @private
    */
   private autoUpdateReference () {
     this.headers["x-agent-reference"] = this.generateReference(5);
