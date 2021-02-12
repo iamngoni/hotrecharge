@@ -1,5 +1,7 @@
 #ignore node_modules
 node_modules
+#ignore example code
+file.js
 
 #ignore build folder
 dist

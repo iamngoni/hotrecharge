@@ -5,43 +5,43 @@ import AuthorizationError from '../types/unauthorized';
 import GeneralError from '../types/error';
 
 export default class HotRecharge {
-  private root_endpoint: string = 'https://ssl.hot.co.zw';
-  private api_version: string = '/api/v1/';
-  private content_type: string = 'application/json';
+  private rootEndpoint: string = 'https://ssl.hot.co.zw';
+  private apiVersion: string = '/api/v1/';
+  private contentType: string = 'application/json';
 
   // Endpoints
   /** The endpoint for airtime recharge */
-  private recharge_pinless = 'agents/recharge-pinless';
+  private rechargePinless = 'agents/recharge-pinless';
   /** The endpoint for data recharge */
-  private recharge_data = 'agents/recharge-data';
+  private rechargeData = 'agents/recharge-data';
   /** The endpoint checking agent wallet balance */
-  private wallet_balance = 'agents/wallet-balance';
+  private walletBalance = 'agents/wallet-balance';
   /** The endpoint for getting agent data balance */
-  private get_data_bundle = 'agents/get-data-bundles';
+  private getDataBundle = 'agents/get-data-bundles';
   /** The endpoint for getting end user balance */
-  private end_user_balance = 'agents/enduser-balance?targetmobile=';
+  private endUserBalance = 'agents/enduser-balance?targetmobile=';
   /** Headers to be passed to the https request */
   private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
   private url: string = '';
-  private use_random_reference: Boolean = true;
+  private useRandomReference: Boolean = true;
 
   /**
    * Hot Recharge Web Service Library (Node.js)
    * Ngonidzashe Mangudya
    * 
    * @constructor
-   * @param agent_details [Credentials]
+   * @param agentDetails [Credentials]
    */
-  constructor (agent_details: Credentials, use_random_reference: Boolean = true) {
-    if (agent_details.reference && agent_details.reference.length > 50) {
+  constructor (agentDetails: Credentials, useRandomReference: boolean = true) {
+    if (agentDetails.reference && agentDetails.reference.length > 50) {
       throw new Error('Agent Reference Must Not Exceed 50 Characters');
     }
-    this.use_random_reference = use_random_reference;
-    this.headers["x-access-code"] =  agent_details.email;
-    this.headers["x-access-password"] = agent_details.password;
-    this.headers["x-agent-reference"] = use_random_reference ? this.generateReference(5) : agent_details.reference;
-    this.headers["content-type"] = this.content_type;
+    this.useRandomReference = useRandomReference;
+    this.headers["x-access-code"] =  agentDetails.email;
+    this.headers["x-access-password"] = agentDetails.password;
+    this.headers["x-agent-reference"] = useRandomReference ? this.generateReference(5) : agentDetails.reference;
+    this.headers["content-type"] = this.contentType;
     this.headers["cache-control"] = 'no-cache';
   }
 
@@ -58,7 +58,7 @@ export default class HotRecharge {
    */
   async getAgentWalletBalance () {
     // set url to point to wallet balance endpoint
-    this.url = this.root_endpoint + this.api_version + this.wallet_balance;
+    this.url = this.root_endpoint + this.apiVersion + this.walletBalance;
     // process the request with axios
     return await this.processHttpsGetRequest();
   }
@@ -68,7 +68,7 @@ export default class HotRecharge {
    * @param mobile_number End user mobile number
    */
   async getEndUserBalance (mobile_number: string) {
-    this.url = this.root_endpoint + this.api_version + this.end_user_balance + mobile_number;
+    this.url = this.root_endpoint + this.apiVersion + this.endUserBalance + mobile_number;
     return await this.processHttpsGetRequest();
   }
 
@@ -87,7 +87,7 @@ export default class HotRecharge {
     
     //TODO: Verify on brandId and message with Donald
 
-    this.url = this.root_endpoint + this.api_version + this.recharge_pinless;
+    this.url = this.root_endpoint + this.apiVersion + this.rechargePinless;
     return await this.processHttpsPostRequest(payload);
   }
 
@@ -103,12 +103,12 @@ export default class HotRecharge {
       "targetMobile": mobile_number
     };
 
-    this.url = this.root_endpoint + this.api_version + this.recharge_data;
+    this.url = this.root_endpoint + this.apiVersion + this.rechargeData;
     return await this.processHttpsPostRequest(payload);
   }
 
   async getDataBundlesBalance () {
-    this.url = this.root_endpoint + this.api_version + this.get_data_bundle;
+    this.url = this.root_endpoint + this.apiVersion + this.getDataBundle;
     return await this.processHttpsGetRequest();
   }
 
@@ -119,7 +119,7 @@ export default class HotRecharge {
  */
   private async processHttpsGetRequest () {
     // check if user wants reference to be updated automatically
-    if (this.use_random_reference) {
+    if (this.useRandomReference) {
       this.autoUpdateReference();
     }
     try {
@@ -145,7 +145,7 @@ export default class HotRecharge {
    */
   private async processHttpsPostRequest (data: Object) {
     // check if user wants reference to be updated automatically
-    if (this.use_random_reference) {
+    if (this.useRandomReference) {
       this.autoUpdateReference();
     }
     try {
