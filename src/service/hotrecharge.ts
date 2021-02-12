@@ -24,7 +24,7 @@ export default class HotRecharge {
   private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
   private url: string = '';
-  private useRandomReference: Boolean = true;
+  private useRandomReference: boolean = true;
 
   /**
    * Hot Recharge Web Service Library (Node.js)
@@ -58,35 +58,32 @@ export default class HotRecharge {
    */
   async getAgentWalletBalance () {
     // set url to point to wallet balance endpoint
-    this.url = this.root_endpoint + this.apiVersion + this.walletBalance;
+    this.url = this.rootEndpoint + this.apiVersion + this.walletBalance;
     // process the request with axios
     return await this.processHttpsGetRequest();
   }
 
   /**
    * Get end user balance
-   * @param mobile_number End user mobile number
+   * @param mobileNumber End user mobile number
    */
-  async getEndUserBalance (mobile_number: string) {
-    this.url = this.root_endpoint + this.apiVersion + this.endUserBalance + mobile_number;
+  async getEndUserBalance (mobileNumber: string) {
+    this.url = this.rootEndpoint + this.apiVersion + this.endUserBalance + mobileNumber;
     return await this.processHttpsGetRequest();
   }
 
   /**
    * 
    * @param amount Amount to recharge
-   * @param mobile_number Mobile number to recharge
+   * @param mobileNumber Mobile number to recharge
    * @param brandId Optional
    * @param message Optional: Customer sms to send
    */
-  async pinlessRecharge (amount: Number, mobile_number: string, brandId: string = null, message: Object = null) {
-    let payload: Object = {
+  async pinlessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: object = null) {
+    const payload: object = {
       "amount": amount,
-      "targetMobile": mobile_number
+      "targetMobile": mobileNumber
     };
-    
-    //TODO: Verify on brandId and message with Donald
-
     this.url = this.root_endpoint + this.apiVersion + this.rechargePinless;
     return await this.processHttpsPostRequest(payload);
   }
