@@ -29,9 +29,9 @@ const HotRecharge = require("hotrecharge").HotRecharge;
 #### Declare and instantiate a new instance of HotRecharge
 ```javascript
 const hotrecharge = new HotRecharge({
-  email: 'email@gmail.com',
-  password: 'emailP@55w0rd',
-  ref: 'AirtimeTransaction1'
+  email: 'email address',
+  password: 'password',
+  ref: 'your unique merchant reference'
 }, false);
 ```
 
