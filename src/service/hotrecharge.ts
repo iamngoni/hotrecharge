@@ -40,7 +40,7 @@ export default class HotRecharge {
     this.useRandomReference = useRandomReference;
     this.headers["x-access-code"] =  agentDetails.email;
     this.headers["x-access-password"] = agentDetails.password;
-    this.headers["x-agent-reference"] = useRandomReference ? this.generateReference(5) : agentDetails.reference;
+    this.headers["x-agent-reference"] = useRandomReference ? HotRecharge.generateReference(5) : agentDetails.reference;
     this.headers["content-type"] = this.contentType;
     this.headers["cache-control"] = 'no-cache';
   }
@@ -49,14 +49,14 @@ export default class HotRecharge {
    * Update the merchant reference
    * @param reference New merchant reference
    */
-  updateReference (reference: string) {
+  public updateReference (reference: string) {
     this.headers["x-agent-reference"] = reference;
   }
 
   /**
    * Get agent wallet balance 
    */
-  async getAgentWalletBalance () {
+  public async getAgentWalletBalance () {
     // set url to point to wallet balance endpoint
     this.url = this.rootEndpoint + this.apiVersion + this.walletBalance;
     // process the request with axios
@@ -67,7 +67,7 @@ export default class HotRecharge {
    * Get end user balance
    * @param mobileNumber End user mobile number
    */
-  async getEndUserBalance (mobileNumber: string) {
+  public async getEndUserBalance (mobileNumber: string) {
     this.url = this.rootEndpoint + this.apiVersion + this.endUserBalance + mobileNumber;
     return await this.processHttpsGetRequest();
   }
@@ -79,7 +79,7 @@ export default class HotRecharge {
    * @param brandId Optional
    * @param message Optional: Customer sms to send
    */
-  async pinLessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: object = null) {
+  public async pinLessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: object = null) {
     const payload: object = {
       "amount": amount,
       "targetMobile": mobileNumber
@@ -94,7 +94,7 @@ export default class HotRecharge {
    * @param mobileNumber Mobile number to recharge
    * @param message Optional: customer sms to send
    */
-  async dataBundleRecharge (productCode: string, mobileNumber: string, message: object = null) {
+  public async dataBundleRecharge (productCode: string, mobileNumber: string, message: object = null) {
     const payload = {
       "productcode": productCode,
       "targetMobile": mobileNumber
@@ -107,7 +107,7 @@ export default class HotRecharge {
   /**
    * Get Data Bundles Balance
    */
-  async getDataBundlesBalance () {
+  public async getDataBundlesBalance () {
     this.url = this.rootEndpoint + this.apiVersion + this.getDataBundle;
     return await this.processHttpsGetRequest();
   }
@@ -142,7 +142,7 @@ export default class HotRecharge {
 
   /**
    * Process Post Request With Axios
-   * @param data Data to prost with request
+   * @param data Data to post with request
    * @private
    */
   private async processHttpsPostRequest (data: object) {
@@ -173,7 +173,7 @@ export default class HotRecharge {
    * @returns Unique merchant reference
    * @private
    */
-  private generateReference(length: number): string {
+  private static generateReference(length: number): string {
     let result: string = '';
     const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength: number = characters.length;
@@ -188,6 +188,6 @@ export default class HotRecharge {
    * @private
    */
   private autoUpdateReference () {
-    this.headers["x-agent-reference"] = this.generateReference(5);
+    this.headers["x-agent-reference"] = HotRecharge.generateReference(5);
   }
 }
