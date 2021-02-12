@@ -1,12 +1,12 @@
 export default class GeneralError {
   /** Error message */
-  public message: string;
+  public error: string;
 
   /**
    * @constructor
-   * @param message Error message
+   * @param error Error message
    */
-  constructor (message: string) {
-    this.message = message;
+  constructor (error: string) {
+    this.error = error;
   }
 }
