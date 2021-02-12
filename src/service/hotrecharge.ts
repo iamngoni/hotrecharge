@@ -20,7 +20,7 @@ export default class HotRecharge {
   /** The endpoint for getting end user balance */
   private end_user_balance = 'agents/enduser-balance?targetmobile=';
   /** Headers to be passed to the https request */
-  private headers: Headers = {"x-access-code": null, "x-access-password": null, "x-agent-reference": null, "content-type": null, "cache-control": null};
+  private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
   private url: string = '';
 
