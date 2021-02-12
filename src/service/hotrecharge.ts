@@ -24,6 +24,7 @@ export default class HotRecharge {
   private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
   private url: string = '';
+  private use_random_reference: Boolean = true;
 
   /**
    * Hot Recharge Web Service Library (Node.js)
@@ -32,10 +33,11 @@ export default class HotRecharge {
    * @constructor
    * @param agent_details [Credentials]
    */
-  constructor (agent_details: Credentials, use_random_reference: boolean = true) {
+  constructor (agent_details: Credentials, use_random_reference: Boolean = true) {
     if (agent_details.reference && agent_details.reference.length > 50) {
       throw new Error('Agent Reference Must Not Exceed 50 Characters');
     }
+    this.use_random_reference = use_random_reference;
     this.headers["x-access-code"] =  agent_details.email;
     this.headers["x-access-password"] = agent_details.password;
     this.headers["x-agent-reference"] = use_random_reference ? this.generateReference(5) : agent_details.reference;
@@ -116,7 +118,10 @@ export default class HotRecharge {
  * Process the GET request
  */
   private async processHttpsGetRequest () {
-    this.autoUpdateReference();
+    // check if user wants reference to be updated automatically
+    if (this.use_random_reference) {
+      this.autoUpdateReference();
+    }
     try {
       let response = await axios.get(this.url,{
         headers: this.headers,
@@ -139,7 +144,10 @@ export default class HotRecharge {
    * @param data Data to post with the request
    */
   private async processHttpsPostRequest (data: Object) {
-    this.autoUpdateReference();
+    // check if user wants reference to be updated automatically
+    if (this.use_random_reference) {
+      this.autoUpdateReference();
+    }
     try {
       let response = await axios.post(this.url, data, {
         headers: this.headers,
