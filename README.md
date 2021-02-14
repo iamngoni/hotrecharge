@@ -61,7 +61,7 @@ recharge.pinLessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS').the
 ```
 
 > Sample Response
-```json
+```
 {
   ReplyCode: 2,
   ReplyMsg: 'Recharge to 077111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05',
@@ -111,7 +111,7 @@ recharge.getDataBundleOptions().then(function (response) {
 ```
 
 > Sample Response
-```json
+```
 {
   ReplyCode: 2,
   Bundles: [
@@ -138,7 +138,7 @@ recharge.queryTransactionReference('transaction reference').then(function (respo
 ```
 
 > Sample response
-```json
+```
 {
   RawReply: '{"ReplyCode":2,"ReplyMsg":"Recharge to 0771111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05","WalletBalance":25.0000,"Amount":1.0,"Discount":0.0000,"InitialBalance":0.0494,"FinalBalance":1.0494,"Window":"2021-05-15T18:33:23.7622021+02:00","Data":0.0,"SMS":0,"AgentReference":"xxxxxxx","RechargeID":0000000}',
   ReplyCode: '2',
