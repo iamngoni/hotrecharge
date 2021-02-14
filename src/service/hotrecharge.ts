@@ -5,6 +5,7 @@ import AuthorizationError from '../types/unauthorized';
 import GeneralError from '../types/error';
 import * as uuid from 'uuid';
 import PinLessRecharge from '../interfaces/pinlessrecharge';
+import DataBundle from '../interfaces/dataBundle';
 
 export default class HotRecharge {
   /** HotRecharge server endpoint */
@@ -115,14 +116,32 @@ export default class HotRecharge {
    * @param mobileNumber Mobile number to recharge
    * @param message Optional: customer sms to send
    */
-  public async dataBundleRecharge (productCode: string, mobileNumber: string, message: object = null) {
-    const payload = {
+  public async dataBundleRecharge (productCode: string, mobileNumber: string, message: string = null) {
+    const payload: DataBundle = {
       "productcode": productCode,
-      "targetMobile": mobileNumber
+      "targetMobile": mobileNumber,
+      "CustomerSMS": null
     };
+
+    if (message != null) {
+      if (message.length > 135) {
+        throw new Error('Message exceeds character limit of 135');
+      }
+      payload.CustomerSMS = message;
+    }
 
     this.url = this.rootEndpoint + this.apiVersion + this.rechargeData;
     return await this.processHttpsPostRequest(payload);
+  }
+
+  /**
+   * Query transaction
+   * @param agentReference Agent reference for the transaction
+   */
+  public async queryTransactionReference (agentReference: string) {
+    this.autoUpdateReference();
+    this.url = this.rootEndpoint + this.apiVersion + this.queryTransaction + agentReference;
+    return await this.processHttpsGetRequest();
   }
 
   /**
