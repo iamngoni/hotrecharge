@@ -12,3 +12,6 @@ Fixed imports issue
 * Documentation
 * Renamed method [getDataBundleOptions]
 * More error checking
+
+# 1.0.44
+* More refined message
