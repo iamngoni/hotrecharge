@@ -103,7 +103,7 @@ export default class HotRecharge {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message;
+      payload.CustomerSMS = message + ' - Airtime Recharge of $' + payload.amount + ' successful.';
     }
 
     this.url = this.rootEndpoint + this.apiVersion + this.rechargePinless;

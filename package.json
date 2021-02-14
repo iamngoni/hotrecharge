@@ -1,6 +1,6 @@
 {
   "name": "hotrecharge",
-  "version": "1.0.42",
+  "version": "1.0.44",
   "description": "Hot Recharge Service",
   "main": "dist/index.js",
   "scripts": {
