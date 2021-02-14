@@ -123,10 +123,7 @@ export default class HotRecharge {
    * @private
    */
   private async processHttpsGetRequest () {
-    // check if user wants reference to be updated automatically
-    if (this.useRandomReference) {
-      this.autoUpdateReference();
-    }
+    this.autoUpdateReference();
     try {
       const response = await axios.get(this.url,{
         headers: this.headers,
@@ -150,10 +147,7 @@ export default class HotRecharge {
    * @private
    */
   private async processHttpsPostRequest (data: object) {
-    // check if user wants reference to be updated automatically
-    if (this.useRandomReference) {
-      this.autoUpdateReference();
-    }
+    this.autoUpdateReference();
     try {
       const response = await axios.post(this.url, data, {
         headers: this.headers,
@@ -188,6 +182,8 @@ export default class HotRecharge {
    * @private
    */
   private autoUpdateReference () {
-    this.headers["x-agent-reference"] = HotRecharge.generateReference(5);
+    if (this.useRandomReference) {
+      this.headers["x-agent-reference"] = HotRecharge.generateReference(5);
+    }
   }
 }
