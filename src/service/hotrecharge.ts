@@ -4,6 +4,7 @@ import Headers from "../interfaces/headers";
 import AuthorizationError from '../types/unauthorized';
 import GeneralError from '../types/error';
 import * as uuid from 'uuid';
+import PinLessRecharge from '../interfaces/pinlessrecharge';
 
 export default class HotRecharge {
   /** HotRecharge server endpoint */
@@ -24,6 +25,8 @@ export default class HotRecharge {
   private getDataBundle = 'agents/get-data-bundles';
   /** The endpoint for getting end user balance */
   private endUserBalance = 'agents/enduser-balance?targetmobile=';
+  /** The end for querying a transaction */
+  private queryTransaction = 'agents/query-transaction?agentReference=';
   /** Headers to be passed to the https request */
   private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
@@ -83,11 +86,25 @@ export default class HotRecharge {
    * @param brandId Optional
    * @param message Optional: Customer sms to send
    */
-  public async pinLessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: object = null) {
-    const payload: object = {
+  public async pinLessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: string = null) {
+    const payload: PinLessRecharge = {
       "amount": amount,
-      "targetMobile": mobileNumber
+      "targetMobile": mobileNumber,
+      "BrandID": null,
+      "CustomerSMS": null
     };
+
+    if (brandId != null) {
+      payload.BrandID = brandId;
+    }
+
+    if (message != null) {
+      if (message.length > 135) {
+        throw new Error('Message exceeds character limit of 135');
+      }
+      payload.CustomerSMS = message;
+    }
+
     this.url = this.rootEndpoint + this.apiVersion + this.rechargePinless;
     return await this.processHttpsPostRequest(payload);
   }
