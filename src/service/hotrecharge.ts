@@ -3,6 +3,7 @@ import Credentials from "../interfaces/credentials";
 import Headers from "../interfaces/headers";
 import AuthorizationError from '../types/unauthorized';
 import GeneralError from '../types/error';
+import * as uuid from 'uuid';
 
 export default class HotRecharge {
   /** HotRecharge server endpoint */
@@ -57,7 +58,7 @@ export default class HotRecharge {
   }
 
   /**
-   * Get agent wallet balance 
+   * Get agent wallet balance
    */
   public async getAgentWalletBalance () {
     // set url to point to wallet balance endpoint
@@ -76,7 +77,7 @@ export default class HotRecharge {
   }
 
   /**
-   * 
+   *
    * @param amount Amount to recharge
    * @param mobileNumber Mobile number to recharge
    * @param brandId Optional
@@ -92,7 +93,7 @@ export default class HotRecharge {
   }
 
   /**
-   * 
+   *
    * @param productCode Bundle product code e.g. DWB15 for weekly data bundle - ECONET
    * @param mobileNumber Mobile number to recharge
    * @param message Optional: customer sms to send
@@ -165,7 +166,7 @@ export default class HotRecharge {
       if (error.response.status === 401) {
         return new AuthorizationError(error.response.data.Message);
       }
-  
+
       return new GeneralError(error.response.data);
     }
   }
@@ -177,12 +178,8 @@ export default class HotRecharge {
    * @private
    */
   private static generateReference(length: number): string {
-    let result: string = '';
-    const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength: number = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+    const randomUuid: string = uuid.v4();
+    const result: string = randomUuid.split('-')[0];
     return result;
   }
 
