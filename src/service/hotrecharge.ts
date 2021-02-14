@@ -145,9 +145,9 @@ export default class HotRecharge {
   }
 
   /**
-   * Get Data Bundles Balance
+   * Get list of available data bundle options
    */
-  public async getDataBundlesBalance () {
+  public async getDataBundleOptions () {
     this.url = this.rootEndpoint + this.apiVersion + this.getDataBundle;
     return await this.processHttpsGetRequest();
   }
@@ -168,6 +168,16 @@ export default class HotRecharge {
       });
       return response.data;
     } catch (error) {
+      // Check if request has been timed out
+      if (error.code === 'ECONNABORTED') {
+        return new GeneralError('Request timed out (45 seconds).');
+      }
+
+      // Check if error is caused by network
+      if (error.code === 'EAI_AGAIN') {
+        return new GeneralError('Network error.');
+      }
+
       // Check if response is a request authorization error
       if (error.response.status === 401) {
         return new AuthorizationError(error.response.data.Message);
@@ -192,6 +202,16 @@ export default class HotRecharge {
       });
       return response.data;
     } catch (error) {
+      // Check if request has been timed out
+      if (error.code === 'ECONNABORTED') {
+        return new GeneralError('Request timed out (45 seconds).');
+      }
+
+      // Check if error is caused by network
+      if (error.code === 'EAI_AGAIN') {
+        return new GeneralError('Network error.');
+      }
+
       // Check if response is a request authorization error
       if (error.response.status === 401) {
         return new AuthorizationError(error.response.data.Message);

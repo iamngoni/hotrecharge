@@ -6,6 +6,6 @@ const recharge = new HotRecharge({email: 'imngonii@gmail.com', password: 'Nickm@
 //   console.log(response);
 // });
 
-recharge.queryTransactionReference('efe34794').then(function (response) {
+recharge.getEndUserBalance('0713700601').then(function (response) {
   console.log(response);
 });
