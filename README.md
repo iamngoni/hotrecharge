@@ -39,25 +39,13 @@ const { HotRecharge } = require("hotrecharge");
 const recharge = new HotRecharge({
   email: 'email address',
   password: 'password',
-  reference: 'your unique merchant reference'
 });
 ```
-
-> The reference is optional but if it's present then the last parameter has to be set to false - so that auto generation of references is blocked
-
-#### Manually updating the reference
-``` javascript
-recharge.updateReference('unique merchant reference');
-```
-
-> Using the same reference will result in request failure !
 
 #### Direct airtime recharge of user's mobile account
 
 ```javascript
-recharge.pinLessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS').then(function (response) {
-  //handle response
-});
+recharge.pinLessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS')
 ```
 
 > Sample Response
@@ -81,9 +69,7 @@ recharge.pinLessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS').the
 #### Direct data bundle recharge of user's mobile account
 
 ```javascript
-recharge.dataBundleRecharge('productcode', 'mobile number', 'custom message').then(function (response) {
-  //handle response
-});
+recharge.dataBundleRecharge('productcode', 'mobile number', 'custom message')
 ```
 
 #### Get agent wallet balance
@@ -97,17 +83,13 @@ recharge.getAgentWalletBalance().then(function (response) {
 #### Get end user wallet balance
 
 ```javascript
-recharge.getEndUserBalance('mobile number').then(function (response) {
-  //handle response
-});
+recharge.getEndUserBalance('mobile number')
 ```
 
 #### Get list of available data bundle options
 
 ```javascript
-recharge.getDataBundleOptions().then(function (response) {
-  //handle response
-});
+recharge.getDataBundleOptions()
 ```
 
 > Sample Response
@@ -132,9 +114,7 @@ recharge.getDataBundleOptions().then(function (response) {
 
 #### Query a transaction
 ```javascript
-recharge.queryTransactionReference('transaction reference').then(function (response) {
-  //handle response
-});
+recharge.queryTransactionReference('transaction reference')
 ```
 
 > Sample response

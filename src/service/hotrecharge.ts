@@ -32,33 +32,19 @@ export default class HotRecharge {
   private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
   /** This is the url that will be accessed by the service */
   private url: string = '';
-  private readonly useRandomReference: boolean = true;
 
   /**
    * Hot Recharge Web Service
    * Author: Ngonidzashe Mangudya <imngonii@gmail.com>
    * @param agentDetails {Credentials} Agent details - Email Address, Password And|Or Merchant Reference
-   * @param useRandomReference {boolean}
    * @constructor
    */
-  constructor (agentDetails: Credentials, useRandomReference: boolean = true) {
-    if (agentDetails.reference && agentDetails.reference.length > 50) {
-      throw new Error('Agent Reference Must Not Exceed 50 Characters');
-    }
-    this.useRandomReference = useRandomReference;
+  constructor (agentDetails: Credentials) {
     this.headers["x-access-code"] =  agentDetails.email;
     this.headers["x-access-password"] = agentDetails.password;
-    this.headers["x-agent-reference"] = useRandomReference ? HotRecharge.generateReference(5) : agentDetails.reference;
+    this.headers["x-agent-reference"] = HotRecharge.generateReference();
     this.headers["content-type"] = this.contentType;
     this.headers["cache-control"] = 'no-cache';
-  }
-
-  /**
-   * Update the merchant reference
-   * @param reference New merchant reference
-   */
-  public updateReference (reference: string) {
-    this.headers["x-agent-reference"] = reference;
   }
 
   /**
@@ -139,7 +125,7 @@ export default class HotRecharge {
    * @param agentReference Agent reference for the transaction
    */
   public async queryTransactionReference (agentReference: string) {
-    this.autoUpdateReference();
+    this.updateReference();
     this.url = this.rootEndpoint + this.apiVersion + this.queryTransaction + agentReference;
     return await this.processHttpsGetRequest();
   }
@@ -159,7 +145,7 @@ export default class HotRecharge {
    * @private
    */
   private async processHttpsGetRequest () {
-    this.autoUpdateReference();
+    this.updateReference();
     try {
       const response = await axios.get(this.url,{
         headers: this.headers,
@@ -193,7 +179,7 @@ export default class HotRecharge {
    * @private
    */
   private async processHttpsPostRequest (data: object) {
-    this.autoUpdateReference();
+    this.updateReference();
     try {
       const response = await axios.post(this.url, data, {
         headers: this.headers,
@@ -227,9 +213,9 @@ export default class HotRecharge {
    * @returns Unique merchant reference
    * @private
    */
-  private static generateReference(length: number): string {
+  private static generateReference(): string {
     const randomUuid: string = uuid.v4();
-    const result: string = randomUuid.split('-')[0];
+    const result: string = randomUuid.split('-').join("");
     return result;
   }
 
@@ -237,9 +223,7 @@ export default class HotRecharge {
    * Auto update merchant reference
    * @private
    */
-  private autoUpdateReference () {
-    if (this.useRandomReference) {
-      this.headers["x-agent-reference"] = HotRecharge.generateReference(5);
-    }
+  private updateReference () {
+      this.headers["x-agent-reference"] = HotRecharge.generateReference();
   }
 }

@@ -12,7 +12,7 @@
     "hotrecharge"
   ],
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.27.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
