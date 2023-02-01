@@ -1,42 +1,26 @@
 import axios from 'axios';
 import Credential from '../interfaces/credential';
-import AuthorizationError from '../types/unauthorized';
-import GeneralError from '../types/error';
+import AuthorizationError from '../errors/unauthorized';
+import GeneralError from '../errors/error';
 import * as uuid from 'uuid';
 import PinLessRecharge from '../interfaces/pinless-recharge';
 import DataBundle from '../interfaces/data-bundle';
-import { Logger } from "tslog";
+import { logger } from '../utils/logger';
 
-const logger = new Logger();
 
 export default class HotRecharge {
   /** HotRecharge server endpoint */
   private rootEndpoint: string = 'https://ssl.hot.co.zw';
   /** Api version */
   private apiVersion: string = '/api/v1/';
-  /** Content-type for Https requests */
-  private contentType: string = 'application/json';
 
-  // Endpoints
-  /** The endpoint for airtime recharge */
-  private rechargePinless = 'agents/recharge-pinless';
-  /** The endpoint for data recharge */
-  private rechargeData = 'agents/recharge-data';
-  /** The endpoint checking agent wallet balance */
-  private walletBalance = 'agents/wallet-balance';
-  /** The endpoint for getting agent data balance */
-  private getDataBundle = 'agents/get-data-bundles';
-  /** The endpoint for getting end user balance */
-  private endUserBalance = 'agents/enduser-balance?targetmobile=';
-  /** The end for querying a transaction */
-  private queryTransaction = 'agents/query-transaction?agentReference=';
   /** Headers to be passed to the https request */
   private headers: Record<string, string> = {
     'x-access-code': '',
     'x-access-password': '',
     'x-agent-reference': '',
-    'content-type': 'null',
-    'cache-control': 'null',
+    'content-type': 'application/json',
+    'cache-control': 'no-cache',
   };
   /** This is the url that will be accessed by the service */
   private url: string = '';
@@ -51,8 +35,6 @@ export default class HotRecharge {
     this.headers['x-access-code'] = agentDetails.email;
     this.headers['x-access-password'] = agentDetails.password;
     this.headers['x-agent-reference'] = HotRecharge.generateReference();
-    this.headers['content-type'] = this.contentType;
-    this.headers['cache-control'] = 'no-cache';
     logger.info('HotRecharge initialized ...')
   }
 
@@ -61,7 +43,7 @@ export default class HotRecharge {
    */
   public async getAgentWalletBalance() {
     // set url to point to wallet balance endpoint
-    this.url = this.rootEndpoint + this.apiVersion + this.walletBalance;
+    this.url = this.rootEndpoint + this.apiVersion + Constants.WALLET_BALANCE;
     // process the request with axios
     return await this.get();
   }
@@ -71,7 +53,7 @@ export default class HotRecharge {
    * @param mobileNumber End user mobile number
    */
   public async getEndUserBalance(mobileNumber: string) {
-    this.url = this.rootEndpoint + this.apiVersion + this.endUserBalance + mobileNumber;
+    this.url = this.rootEndpoint + this.apiVersion + Constants.USER_BALANCE + mobileNumber;
     return await this.get();
   }
 
@@ -105,7 +87,7 @@ export default class HotRecharge {
 
     logger.info(`Pinless Recharge(Amount: $${payload.amount}, Target Mobile: ${payload.targetMobile}, Brand ID: ${payload.BrandID}, CustomerSMS: ${payload.CustomerSMS})`);
 
-    this.url = this.rootEndpoint + this.apiVersion + this.rechargePinless;
+    this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_PINLESS;
     return await this.post(payload);
   }
 
@@ -134,7 +116,7 @@ export default class HotRecharge {
     logger.info(`Data Bundle Recharge(Product Code: $${payload.productcode}, Target Mobile: ${payload.targetMobile}, CustomerSMS: ${payload.CustomerSMS})`);
 
 
-    this.url = this.rootEndpoint + this.apiVersion + this.rechargeData;
+    this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_DATA;
     return await this.post(payload);
   }
 
@@ -145,7 +127,7 @@ export default class HotRecharge {
   public async queryTransactionReference(agentReference: string) {
     this.updateRequestReference();
     logger.info('Checking transaction reference');
-    this.url = this.rootEndpoint + this.apiVersion + this.queryTransaction + agentReference;
+    this.url = this.rootEndpoint + this.apiVersion + Constants.TRANSACTION_QUERY + agentReference;
     return await this.get();
   }
 
@@ -154,7 +136,7 @@ export default class HotRecharge {
    */
   public async getDataBundleOptions() {
     logger.info('Checking data bundle options')
-    this.url = this.rootEndpoint + this.apiVersion + this.getDataBundle;
+    this.url = this.rootEndpoint + this.apiVersion + Constants.DATA_BUNDLES;
     return await this.get();
   }
 
