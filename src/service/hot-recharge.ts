@@ -1,13 +1,13 @@
 import axios from 'axios';
 import Credential from '../interfaces/credential';
-import AuthorizationError from '../errors/unauthorized';
-import GeneralError from '../errors/error';
 import * as uuid from 'uuid';
 import PinLessRecharge from '../interfaces/pinless-recharge';
 import DataBundle from '../interfaces/data-bundle';
 import { logger } from '../utils/logger';
 import ZesaRecharge from '../interfaces/zesa-recharge';
 import { Constants } from '../utils/constants'
+import HotRechargeError from '../errors/hot-recharge-error';
+import HotRechargeErrorHandler from '../errors/hot-recharge-error-handler';
 
 
 export default class HotRecharge {
@@ -120,9 +120,9 @@ export default class HotRecharge {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Airtime Recharge of $' + payload.amount + 'through HotRecharge (ModestNerds, Co) successful.';
+      payload.CustomerSMS = message + ' - Airtime Recharge of $' + payload.amount + ' through ModestNerds, Co successful.';
     } else {
-      payload.CustomerSMS = 'Airtime Recharge of $' + payload.amount + 'through HotRecharge (ModestNerds, Co) successful.';
+      payload.CustomerSMS = 'Airtime Recharge of $' + payload.amount + ' through ModestNerds, Co successful.';
     }
 
     logger.info(`Pinless Recharge(Amount: $${payload.amount}, Target Mobile: ${payload.targetMobile}, Brand ID: ${payload.BrandID}, CustomerSMS: ${payload.CustomerSMS})`);
@@ -166,9 +166,9 @@ export default class HotRecharge {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Data Bundle Recharge through HotRecharge (ModestNerds, Co) successful.';
+      payload.CustomerSMS = message + ' - Data Bundle Recharge  through ModestNerds, Co successful.';
     } else {
-      payload.CustomerSMS = 'Data Bundle Recharge through HotRecharge (ModestNerds, Co) successful.';
+      payload.CustomerSMS = 'Data Bundle Recharge  through ModestNerds, Co successful.';
     }
 
     logger.info(`Data Bundle Recharge(Product Code: $${payload.productcode}, Target Mobile: ${payload.targetMobile}, CustomerSMS: ${payload.CustomerSMS})`);
@@ -276,9 +276,9 @@ export default class HotRecharge {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Zesa Recharge of $' + payload.Amount + 'through HotRecharge (ModestNerds, Co) successful.';
+      payload.CustomerSMS = message + ' - Zesa Recharge of $' + payload.Amount + ' through ModestNerds, Co successful.';
     } else {
-      payload.CustomerSMS = 'Zesa Recharge of $' + payload.Amount + 'through HotRecharge (ModestNerds, Co) successful.';
+      payload.CustomerSMS = 'Zesa Recharge of $' + payload.Amount + ' through ModestNerds, Co successful.';
     }
 
     logger.info(`Zesa Recharge(Amount: $${payload.Amount}, Notify Mobile Number: ${payload.TargetNumber}, Meter Number: ${payload.meterNumber}, CustomerSMS: ${payload.CustomerSMS})`);
@@ -399,23 +399,7 @@ export default class HotRecharge {
       this.logObject(response.data)
       return response.data;
     } catch (error) {
-      logger.error(error)
-      // Check if request has been timed out
-      if (error.code === 'ECONNABORTED') {
-        return new GeneralError('Request timed out (45 seconds).');
-      }
-
-      // Check if error is caused by network
-      if (error.code === 'EAI_AGAIN') {
-        return new GeneralError('Network error.');
-      }
-
-      // Check if response is a request authorization error
-      if (error.response?.status === 401) {
-        return new AuthorizationError(error.response.data.Message);
-      }
-
-      return new GeneralError(error.response?.data);
+      return
     }
   }
 
@@ -437,22 +421,10 @@ export default class HotRecharge {
 
       return response.data;
     } catch (error) {
-      // Check if request has been timed out
-      if (error.code === 'ECONNABORTED') {
-        return new GeneralError('Request timed out (45 seconds).');
+      if (error?.response?.statusCode == 401 || error?.response?.statusCode == 429) {
+        throw new HotRechargeErrorHandler(error.response, error.response.statusCode)
       }
-
-      // Check if error is caused by network
-      if (error.code === 'EAI_AGAIN') {
-        return new GeneralError('Network error.');
-      }
-
-      // Check if response is a request authorization error
-      if (error.response.status === 401) {
-        return new AuthorizationError(error.response.data.Message);
-      }
-
-      return new GeneralError(error.response.data);
+      throw new HotRechargeErrorHandler(error.response)
     }
   }
 

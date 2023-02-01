@@ -6,12 +6,15 @@
 
 // tslint:disable-next-line:only-arrow-functions
 import { HotRecharge } from '../src';
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 // tslint:disable-next-line:only-arrow-functions
 describe('testing hotrecharge service', function() {
   const hotRecharge = new HotRecharge({
-    email: 'imngonii@gmail.com',
-    password: 'Nickm@ng13',
+    email: process.env.TEST_EMAIL,
+    password: process.env.TEST_PASSWORD,
   })
   // tslint:disable-next-line:only-arrow-functions
   test('walletBalance', async function() {
@@ -40,6 +43,11 @@ describe('testing hotrecharge service', function() {
   // tslint:disable-next-line:only-arrow-functions
   test('zesaWalletBalance', async function() {
     const response = await hotRecharge.zesaWalletBalance();
+    expect(response.ReplyCode).toBe(2);
+  })
+
+  test('pinlessRecharge', async function() {
+    const response = await hotRecharge.pinlessRecharge(0.1, '0777213388', 'ModestNerds');
     expect(response.ReplyCode).toBe(2);
   })
 })
