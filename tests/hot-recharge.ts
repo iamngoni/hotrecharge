@@ -45,4 +45,9 @@ describe('testing hotrecharge service', function() {
     const response = await hotRecharge.zesaWalletBalance();
     expect(response.ReplyCode).toBe(2);
   })
+
+  test('pinlessRecharge', async function() {
+    const response = await hotRecharge.pinlessRecharge(0.1, '0777213388', 'ModestNerds');
+    expect(response.ReplyCode).toBe(2);
+  })
 })
