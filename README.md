@@ -19,23 +19,27 @@ Install the library using either npm or yarn
 $ npm install hotrecharge --save
 ```
 
+```sh
+$ yarn add hotrecharge
+```
+
 ## Usage
 
 #### Import the library
 
-```javascript
+```typescript
 const HotRecharge = require("hotrecharge").HotRecharge;
 ```
 
 or
 
-```javascript
+```typescript
 const { HotRecharge } = require("hotrecharge");
 ```
 
 #### Declare and instantiate a new instance of HotRecharge
 
-```javascript
+```typescript
 const recharge = new HotRecharge({
   email: 'email address',
   password: 'password',
@@ -44,12 +48,12 @@ const recharge = new HotRecharge({
 
 #### Direct airtime recharge of user's mobile account
 
-```javascript
-recharge.pinLessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS')
+```typescript
+let response = await recharge.pinlessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS')
 ```
 
-> Sample Response
-```
+##### Sample Response
+```typescript
 {
   ReplyCode: 2,
   ReplyMsg: 'Recharge to 077111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05',
@@ -68,32 +72,30 @@ recharge.pinLessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS')
 
 #### Direct data bundle recharge of user's mobile account
 
-```javascript
-recharge.dataBundleRecharge('productcode', 'mobile number', 'custom message')
+```typescript
+let response = await recharge.dataBundleRecharge('productcode', 'mobile number', 'custom message')
 ```
 
 #### Get agent wallet balance
 
-```javascript
-recharge.getAgentWalletBalance().then(function (response) {
-  //handle response
-});
+```typescript
+let response = await recharge.walletBalance()
 ```
 
 #### Get end user wallet balance
 
-```javascript
-recharge.getEndUserBalance('mobile number')
+```typescript
+let response = await recharge.customerWalletBalance('mobile number')
 ```
 
 #### Get list of available data bundle options
 
-```javascript
-recharge.getDataBundleOptions()
+```typescript
+let response = await recharge.dataBundleOptions()
 ```
 
-> Sample Response
-```
+##### Sample Response
+```typescript
 {
   ReplyCode: 2,
   Bundles: [
@@ -113,12 +115,12 @@ recharge.getDataBundleOptions()
 ```
 
 #### Query a transaction
-```javascript
-recharge.queryTransactionReference('transaction reference')
+```typescript
+let response = recharge.queryTransactionReference('transaction reference')
 ```
 
-> Sample response
-```
+##### Sample response
+```typescript
 {
   RawReply: '{"ReplyCode":2,"ReplyMsg":"Recharge to 0771111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05","WalletBalance":25.0000,"Amount":1.0,"Discount":0.0000,"InitialBalance":0.0494,"FinalBalance":1.0494,"Window":"2021-05-15T18:33:23.7622021+02:00","Data":0.0,"SMS":0,"AgentReference":"xxxxxxx","RechargeID":0000000}',
   ReplyCode: '2',
@@ -126,7 +128,74 @@ recharge.queryTransactionReference('transaction reference')
   OriginalAgentReference: 'xxxxxxx',
   AgentReference: 'yyyyyyy'
 }
+```
 
+#### Purchase Zesa Tokens
+```typescript
+const response = await recharge.rechargeZesa(amount, mobileNumberToSendTokenTo, meterNumber)
+```
+
+##### Sample Response
+```typescript
+{
+    ReplyCode: replyCode,
+    ReplyMsg: replyMsg,
+    WalletBalance: walletBalance,
+    Amount: amount,
+    Discount: discount,
+    Meter: meter,
+    AccountName: accountName,
+    Address: address,
+    Tokens: [
+       {
+            Token: token,
+            Units: units,
+            NetAmount: netAmount,
+            Levy: levy,
+            Arrears: arrears,
+            TaxAmount: taxAmount,
+            ZesaReference: zesaReference,
+        }
+    ],
+    AgentReference: agentReference,
+    RechargeID: rechargeID,
+}
+```
+
+#### Check Zesa Agent Wallet Balance
+```typescript
+const response = await recharge.zesaWalletBalance()
+```
+
+##### Sample Response
+```typescript
+{
+    ReplyCode: 2,
+    ReplyMsg: 'Your HOT ZESA Balance is $ 0.00. You can sell approximately $ 0.00.', 
+    WalletBalance: 0,
+    AgentReference: '11d9f48c9c464e0f81268ee7cab8c90c'
+}
+```
+
+#### Check Zesa Customer Details
+```typescript
+const response = await recharge.enquireZesaCustomer('meterNumber')
+```
+
+##### Sample Response
+```typescript
+{
+      ReplyCode: 2,
+      ReplyMsg: 'PRINCE JONATHAN T KUIPA\n9999 9999 MUTAMBARA MISSION',
+      Meter: 'xxxxxxxx',
+      CustomerInfo: {
+          Reference: '',
+          CustomerName: 'PRINCE JONATHAN T KUIPA\n9999 9999 MUTAMBARA MISSION',
+          Address: '',
+          MeterNumber: 'xxxxxxxxx'
+      },
+      AgentReference: null
+}
 ```
 
 ##### By Ngonidzashe Mangudya (Python Port from [@donnC](https://github.com/DonnC/Hot-Recharge-ZW))

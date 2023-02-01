@@ -1,0 +1,184 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>hotrecharge</title><meta name="description" content="Documentation for hotrecharge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base=".">
+<div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<div class="field">
+<div id="tsd-toolbar-links"></div></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">hotrecharge</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<h2>hotrecharge</h2></div>
+<div class="tsd-panel tsd-typography">
+<a href="#nodejs-library-for--hot-recharge" id="nodejs-library-for--hot-recharge" style="color: inherit; text-decoration: none;">
+  <h1>NODEJS Library for  <a href="https://ssl.hot.co.zw">Hot Recharge</a></h1>
+</a>
+
+<a href="#sign-up-for-a-merchant-account-at-hot-recharge" id="sign-up-for-a-merchant-account-at-hot-recharge" style="color: inherit; text-decoration: none;">
+  <h2>Sign up for a merchant account at <a href="https://ssl.hot.co.zw">Hot Recharge</a></h2>
+</a>
+<blockquote>
+<p>You will need your email and your password to make successful requests</p>
+</blockquote>
+
+<a href="#prerequisites" id="prerequisites" style="color: inherit; text-decoration: none;">
+  <h2>Prerequisites</h2>
+</a>
+<p>The library has a set of prerequisites that must be met for it to work</p>
+<ol>
+<li>Node.js</li>
+<li>NPM (Node Package Manager)</li>
+</ol>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<p>Install the library using either npm or yarn</p>
+<pre><code class="language-sh"><span class="hl-0">$ </span><span class="hl-1">npm</span><span class="hl-0"> </span><span class="hl-1">install</span><span class="hl-0"> </span><span class="hl-1">hotrecharge</span><span class="hl-0"> </span><span class="hl-1">--save</span>
+</code></pre>
+<pre><code class="language-sh"><span class="hl-0">$ </span><span class="hl-1">yarn</span><span class="hl-0"> </span><span class="hl-1">add</span><span class="hl-0"> </span><span class="hl-1">hotrecharge</span>
+</code></pre>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+
+<a href="#import-the-library" id="import-the-library" style="color: inherit; text-decoration: none;">
+  <h4>Import the library</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">HotRecharge</span><span class="hl-0"> = </span><span class="hl-4">require</span><span class="hl-0">(</span><span class="hl-1">&quot;hotrecharge&quot;</span><span class="hl-0">).</span><span class="hl-5">HotRecharge</span><span class="hl-0">;</span>
+</code></pre>
+<p>or</p>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-0"> { </span><span class="hl-3">HotRecharge</span><span class="hl-0"> } = </span><span class="hl-4">require</span><span class="hl-0">(</span><span class="hl-1">&quot;hotrecharge&quot;</span><span class="hl-0">);</span>
+</code></pre>
+
+<a href="#declare-and-instantiate-a-new-instance-of-hotrecharge" id="declare-and-instantiate-a-new-instance-of-hotrecharge" style="color: inherit; text-decoration: none;">
+  <h4>Declare and instantiate a new instance of HotRecharge</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">recharge</span><span class="hl-0"> = </span><span class="hl-2">new</span><span class="hl-0"> </span><span class="hl-4">HotRecharge</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-5">email:</span><span class="hl-0"> </span><span class="hl-1">&#39;email address&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">password:</span><span class="hl-0"> </span><span class="hl-1">&#39;password&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#direct-airtime-recharge-of-user39s-mobile-account" id="direct-airtime-recharge-of-user39s-mobile-account" style="color: inherit; text-decoration: none;">
+  <h4>Direct airtime recharge of user&#39;s mobile account</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-0"> </span><span class="hl-5">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">pinlessRecharge</span><span class="hl-0">(</span><span class="hl-1">&#39;amount&#39;</span><span class="hl-0">, </span><span class="hl-1">&#39;targetMobile&#39;</span><span class="hl-0">, </span><span class="hl-1">&#39;BrandID&#39;</span><span class="hl-0">, </span><span class="hl-1">&#39;CustomerSMS&#39;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#sample-response" id="sample-response" style="color: inherit; text-decoration: none;">
+  <h5>Sample Response</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">{</span><br/><span class="hl-0">  </span><span class="hl-7">ReplyCode</span><span class="hl-0">: </span><span class="hl-8">2</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">ReplyMsg</span><span class="hl-0">: </span><span class="hl-1">&#39;Recharge to 077111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">WalletBalance</span><span class="hl-0">: </span><span class="hl-8">25</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">Amount</span><span class="hl-0">: </span><span class="hl-8">1</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">Discount</span><span class="hl-0">: </span><span class="hl-8">0</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">InitialBalance</span><span class="hl-0">: </span><span class="hl-8">0.0494</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">FinalBalance</span><span class="hl-0">: </span><span class="hl-8">1.0494</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">Window</span><span class="hl-0">: </span><span class="hl-1">&#39;2021-05-15T18:33:23.7622021+02:00&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">Data</span><span class="hl-0">: </span><span class="hl-8">0</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">SMS</span><span class="hl-0">: </span><span class="hl-8">0</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">AgentReference</span><span class="hl-0">: </span><span class="hl-1">&#39;xxxxxxx&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">RechargeID</span><span class="hl-0">: </span><span class="hl-8">0000000</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#direct-data-bundle-recharge-of-user39s-mobile-account" id="direct-data-bundle-recharge-of-user39s-mobile-account" style="color: inherit; text-decoration: none;">
+  <h4>Direct data bundle recharge of user&#39;s mobile account</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-0"> </span><span class="hl-5">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">dataBundleRecharge</span><span class="hl-0">(</span><span class="hl-1">&#39;productcode&#39;</span><span class="hl-0">, </span><span class="hl-1">&#39;mobile number&#39;</span><span class="hl-0">, </span><span class="hl-1">&#39;custom message&#39;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#get-agent-wallet-balance" id="get-agent-wallet-balance" style="color: inherit; text-decoration: none;">
+  <h4>Get agent wallet balance</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-0"> </span><span class="hl-5">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">walletBalance</span><span class="hl-0">()</span>
+</code></pre>
+
+<a href="#get-end-user-wallet-balance" id="get-end-user-wallet-balance" style="color: inherit; text-decoration: none;">
+  <h4>Get end user wallet balance</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-0"> </span><span class="hl-5">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">customerWalletBalance</span><span class="hl-0">(</span><span class="hl-1">&#39;mobile number&#39;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#get-list-of-available-data-bundle-options" id="get-list-of-available-data-bundle-options" style="color: inherit; text-decoration: none;">
+  <h4>Get list of available data bundle options</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-0"> </span><span class="hl-5">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">dataBundleOptions</span><span class="hl-0">()</span>
+</code></pre>
+
+<a href="#sample-response-1" id="sample-response-1" style="color: inherit; text-decoration: none;">
+  <h5>Sample Response</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">{</span><br/><span class="hl-0">  </span><span class="hl-7">ReplyCode</span><span class="hl-0">: </span><span class="hl-8">2</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">Bundles</span><span class="hl-0">: [</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-5">BundleId:</span><span class="hl-0"> </span><span class="hl-8">47</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">BrandId:</span><span class="hl-0"> </span><span class="hl-8">2</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">Network:</span><span class="hl-0"> </span><span class="hl-1">&#39;Econet&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">ProductCode:</span><span class="hl-0"> </span><span class="hl-1">&#39;SMSD5&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">Amount:</span><span class="hl-0"> </span><span class="hl-8">125</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">Name:</span><span class="hl-0"> </span><span class="hl-1">&#39;SMS  - 5MB&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">Description:</span><span class="hl-0"> </span><span class="hl-1">&#39;SMS Daily Bundle&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-5">ValidityPeriod:</span><span class="hl-0"> </span><span class="hl-8">1</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">  ],</span><br/><span class="hl-0">  </span><span class="hl-7">AgentReference</span><span class="hl-0">: </span><span class="hl-1">&#39;xxxxxx&#39;</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#query-a-transaction" id="query-a-transaction" style="color: inherit; text-decoration: none;">
+  <h4>Query a transaction</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-0"> </span><span class="hl-5">response</span><span class="hl-0"> = </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">queryTransactionReference</span><span class="hl-0">(</span><span class="hl-1">&#39;transaction reference&#39;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#sample-response-2" id="sample-response-2" style="color: inherit; text-decoration: none;">
+  <h5>Sample response</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">{</span><br/><span class="hl-0">  </span><span class="hl-7">RawReply</span><span class="hl-0">: </span><span class="hl-1">&#39;{&quot;ReplyCode&quot;:2,&quot;ReplyMsg&quot;:&quot;Recharge to 0771111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05&quot;,&quot;WalletBalance&quot;:25.0000,&quot;Amount&quot;:1.0,&quot;Discount&quot;:0.0000,&quot;InitialBalance&quot;:0.0494,&quot;FinalBalance&quot;:1.0494,&quot;Window&quot;:&quot;2021-05-15T18:33:23.7622021+02:00&quot;,&quot;Data&quot;:0.0,&quot;SMS&quot;:0,&quot;AgentReference&quot;:&quot;xxxxxxx&quot;,&quot;RechargeID&quot;:0000000}&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">ReplyCode</span><span class="hl-0">: </span><span class="hl-1">&#39;2&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">ReplyMsg</span><span class="hl-0">: </span><span class="hl-1">&#39;Recharge to 0771111111 of $1 was successful. The initial balance was $0.05 final balance is $1.05&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">OriginalAgentReference</span><span class="hl-0">: </span><span class="hl-1">&#39;xxxxxxx&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-7">AgentReference</span><span class="hl-0">: </span><span class="hl-1">&#39;yyyyyyy&#39;</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#purchase-zesa-tokens" id="purchase-zesa-tokens" style="color: inherit; text-decoration: none;">
+  <h4>Purchase Zesa Tokens</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">rechargeZesa</span><span class="hl-0">(</span><span class="hl-5">amount</span><span class="hl-0">, </span><span class="hl-5">mobileNumberToSendTokenTo</span><span class="hl-0">, </span><span class="hl-5">meterNumber</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#sample-response-3" id="sample-response-3" style="color: inherit; text-decoration: none;">
+  <h5>Sample Response</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">{</span><br/><span class="hl-0">    </span><span class="hl-7">ReplyCode</span><span class="hl-0">: </span><span class="hl-5">replyCode</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">ReplyMsg</span><span class="hl-0">: </span><span class="hl-5">replyMsg</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">WalletBalance</span><span class="hl-0">: </span><span class="hl-5">walletBalance</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">Amount</span><span class="hl-0">: </span><span class="hl-5">amount</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">Discount</span><span class="hl-0">: </span><span class="hl-5">discount</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">Meter</span><span class="hl-0">: </span><span class="hl-5">meter</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">AccountName</span><span class="hl-0">: </span><span class="hl-5">accountName</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">Address</span><span class="hl-0">: </span><span class="hl-5">address</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">Tokens</span><span class="hl-0">: [</span><br/><span class="hl-0">       {</span><br/><span class="hl-0">            </span><span class="hl-5">Token:</span><span class="hl-0"> </span><span class="hl-5">token</span><span class="hl-0">,</span><br/><span class="hl-0">            </span><span class="hl-5">Units:</span><span class="hl-0"> </span><span class="hl-5">units</span><span class="hl-0">,</span><br/><span class="hl-0">            </span><span class="hl-5">NetAmount:</span><span class="hl-0"> </span><span class="hl-5">netAmount</span><span class="hl-0">,</span><br/><span class="hl-0">            </span><span class="hl-5">Levy:</span><span class="hl-0"> </span><span class="hl-5">levy</span><span class="hl-0">,</span><br/><span class="hl-0">            </span><span class="hl-5">Arrears:</span><span class="hl-0"> </span><span class="hl-5">arrears</span><span class="hl-0">,</span><br/><span class="hl-0">            </span><span class="hl-5">TaxAmount:</span><span class="hl-0"> </span><span class="hl-5">taxAmount</span><span class="hl-0">,</span><br/><span class="hl-0">            </span><span class="hl-5">ZesaReference:</span><span class="hl-0"> </span><span class="hl-5">zesaReference</span><span class="hl-0">,</span><br/><span class="hl-0">        }</span><br/><span class="hl-0">    ],</span><br/><span class="hl-0">    </span><span class="hl-7">AgentReference</span><span class="hl-0">: </span><span class="hl-5">agentReference</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">RechargeID</span><span class="hl-0">: </span><span class="hl-5">rechargeID</span><span class="hl-0">,</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#check-zesa-agent-wallet-balance" id="check-zesa-agent-wallet-balance" style="color: inherit; text-decoration: none;">
+  <h4>Check Zesa Agent Wallet Balance</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">zesaWalletBalance</span><span class="hl-0">()</span>
+</code></pre>
+
+<a href="#sample-response-4" id="sample-response-4" style="color: inherit; text-decoration: none;">
+  <h5>Sample Response</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">{</span><br/><span class="hl-0">    </span><span class="hl-7">ReplyCode</span><span class="hl-0">: </span><span class="hl-8">2</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">ReplyMsg</span><span class="hl-0">: </span><span class="hl-1">&#39;Your HOT ZESA Balance is $ 0.00. You can sell approximately $ 0.00.&#39;</span><span class="hl-0">, </span><br/><span class="hl-0">    </span><span class="hl-7">WalletBalance</span><span class="hl-0">: </span><span class="hl-8">0</span><span class="hl-0">,</span><br/><span class="hl-0">    </span><span class="hl-7">AgentReference</span><span class="hl-0">: </span><span class="hl-1">&#39;11d9f48c9c464e0f81268ee7cab8c90c&#39;</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#check-zesa-customer-details" id="check-zesa-customer-details" style="color: inherit; text-decoration: none;">
+  <h4>Check Zesa Customer Details</h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-0"> </span><span class="hl-3">response</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">recharge</span><span class="hl-0">.</span><span class="hl-4">enquireZesaCustomer</span><span class="hl-0">(</span><span class="hl-1">&#39;meterNumber&#39;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#sample-response-5" id="sample-response-5" style="color: inherit; text-decoration: none;">
+  <h5>Sample Response</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">{</span><br/><span class="hl-0">      </span><span class="hl-7">ReplyCode</span><span class="hl-0">: </span><span class="hl-8">2</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-7">ReplyMsg</span><span class="hl-0">: </span><span class="hl-1">&#39;PRINCE JONATHAN T KUIPA</span><span class="hl-9">\n</span><span class="hl-1">9999 9999 MUTAMBARA MISSION&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-7">Meter</span><span class="hl-0">: </span><span class="hl-1">&#39;xxxxxxxx&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-7">CustomerInfo</span><span class="hl-0">: {</span><br/><span class="hl-0">          </span><span class="hl-7">Reference</span><span class="hl-0">: </span><span class="hl-1">&#39;&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">          </span><span class="hl-7">CustomerName</span><span class="hl-0">: </span><span class="hl-1">&#39;PRINCE JONATHAN T KUIPA</span><span class="hl-9">\n</span><span class="hl-1">9999 9999 MUTAMBARA MISSION&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">          </span><span class="hl-7">Address</span><span class="hl-0">: </span><span class="hl-1">&#39;&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">          </span><span class="hl-7">MeterNumber</span><span class="hl-0">: </span><span class="hl-1">&#39;xxxxxxxxx&#39;</span><br/><span class="hl-0">      },</span><br/><span class="hl-0">      </span><span class="hl-7">AgentReference</span><span class="hl-0">: </span><span class="hl-2">null</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#by-ngonidzashe-mangudya-python-port-from-donnc" id="by-ngonidzashe-mangudya-python-port-from-donnc" style="color: inherit; text-decoration: none;">
+  <h5>By Ngonidzashe Mangudya (Python Port from <a href="https://github.com/DonnC/Hot-Recharge-ZW">@donnC</a>)</h5>
+</a>
+</div></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li class="current selected"><a href="modules.html">hotrecharge</a>
+<ul></ul></li></ul></div></details></nav>
+<nav class="tsd-navigation secondary menu-sticky">
+<ul>
+<li class="tsd-kind-class"><a href="classes/HotRecharge.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-128-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-128-text"></path></svg>Hot<wbr/>Recharge</a></li></ul></nav></div></div>
+<div class="container tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div><script src="assets/main.js"></script></body></html>
