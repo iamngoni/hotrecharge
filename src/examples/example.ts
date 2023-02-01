@@ -1,4 +1,4 @@
-import HotRecharge from "../service/hotrecharge";
+import HotRecharge from "../service/hot-recharge";
 
 const hotrecharge = new HotRecharge({email: "email address", password: 'password'},);
 

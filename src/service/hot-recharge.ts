@@ -1,11 +1,13 @@
-import axios from "axios";
-import Credentials from "../interfaces/credentials";
-import Headers from "../interfaces/headers";
+import axios from 'axios';
+import Credential from '../interfaces/credential';
 import AuthorizationError from '../types/unauthorized';
 import GeneralError from '../types/error';
 import * as uuid from 'uuid';
-import PinLessRecharge from '../interfaces/pinlessrecharge';
-import DataBundle from '../interfaces/dataBundle';
+import PinLessRecharge from '../interfaces/pinless-recharge';
+import DataBundle from '../interfaces/data-bundle';
+import { Logger } from "tslog";
+
+const logger = new Logger();
 
 export default class HotRecharge {
   /** HotRecharge server endpoint */
@@ -29,41 +31,48 @@ export default class HotRecharge {
   /** The end for querying a transaction */
   private queryTransaction = 'agents/query-transaction?agentReference=';
   /** Headers to be passed to the https request */
-  private headers: Headers = {"x-access-code": "", "x-access-password": "", "x-agent-reference": "", "content-type": "null", "cache-control": "null"};
+  private headers: Record<string, string> = {
+    'x-access-code': '',
+    'x-access-password': '',
+    'x-agent-reference': '',
+    'content-type': 'null',
+    'cache-control': 'null',
+  };
   /** This is the url that will be accessed by the service */
   private url: string = '';
 
   /**
    * Hot Recharge Web Service
-   * Author: Ngonidzashe Mangudya <imngonii@gmail.com>
-   * @param agentDetails {Credentials} Agent details - Email Address, Password And|Or Merchant Reference
+   * Author: Ngonidzashe Mangudya <iamngoni@modestnerd.co>
+   * @param agentDetails {Credential} Agent details - Email Address, Password And|Or Merchant Reference
    * @constructor
    */
-  constructor (agentDetails: Credentials) {
-    this.headers["x-access-code"] =  agentDetails.email;
-    this.headers["x-access-password"] = agentDetails.password;
-    this.headers["x-agent-reference"] = HotRecharge.generateReference();
-    this.headers["content-type"] = this.contentType;
-    this.headers["cache-control"] = 'no-cache';
+  constructor(agentDetails: Credential) {
+    this.headers['x-access-code'] = agentDetails.email;
+    this.headers['x-access-password'] = agentDetails.password;
+    this.headers['x-agent-reference'] = HotRecharge.generateReference();
+    this.headers['content-type'] = this.contentType;
+    this.headers['cache-control'] = 'no-cache';
+    logger.info('HotRecharge initialized ...')
   }
 
   /**
    * Get agent wallet balance
    */
-  public async getAgentWalletBalance () {
+  public async getAgentWalletBalance() {
     // set url to point to wallet balance endpoint
     this.url = this.rootEndpoint + this.apiVersion + this.walletBalance;
     // process the request with axios
-    return await this.processHttpsGetRequest();
+    return await this.get();
   }
 
   /**
    * Get end user balance
    * @param mobileNumber End user mobile number
    */
-  public async getEndUserBalance (mobileNumber: string) {
+  public async getEndUserBalance(mobileNumber: string) {
     this.url = this.rootEndpoint + this.apiVersion + this.endUserBalance + mobileNumber;
-    return await this.processHttpsGetRequest();
+    return await this.get();
   }
 
   /**
@@ -73,27 +82,31 @@ export default class HotRecharge {
    * @param brandId Optional
    * @param message Optional: Customer sms to send
    */
-  public async pinLessRecharge (amount: number, mobileNumber: string, brandId: string = null, message: string = null) {
+  public async pinLessRecharge(amount: number, mobileNumber: string, brandId: string = null, message: string = null) {
     const payload: PinLessRecharge = {
-      "amount": amount,
-      "targetMobile": mobileNumber,
-      "BrandID": null,
-      "CustomerSMS": null
+      amount,
+      targetMobile: mobileNumber,
+      BrandID: brandId,
+      CustomerSMS: message,
     };
 
-    if (brandId != null) {
-      payload.BrandID = brandId;
+    if (brandId == null) {
+      payload.BrandID = 'ModestNerds, Co';
     }
 
     if (message != null) {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Airtime Recharge of $' + payload.amount + ' successful.';
+      payload.CustomerSMS = message + ' - Airtime Recharge of $' + payload.amount + 'through HotRecharge (ModestNerds, Co) successful.';
+    } else {
+      payload.CustomerSMS = 'Airtime Recharge of $' + payload.amount + 'through HotRecharge (ModestNerds, Co) successful.';
     }
 
+    logger.info(`Pinless Recharge(Amount: $${payload.amount}, Target Mobile: ${payload.targetMobile}, Brand ID: ${payload.BrandID}, CustomerSMS: ${payload.CustomerSMS})`);
+
     this.url = this.rootEndpoint + this.apiVersion + this.rechargePinless;
-    return await this.processHttpsPostRequest(payload);
+    return await this.post(payload);
   }
 
   /**
@@ -102,55 +115,60 @@ export default class HotRecharge {
    * @param mobileNumber Mobile number to recharge
    * @param message Optional: customer sms to send
    */
-  public async dataBundleRecharge (productCode: string, mobileNumber: string, message: string = null) {
+  public async dataBundleRecharge(productCode: string, mobileNumber: string, message: string = null) {
     const payload: DataBundle = {
-      "productcode": productCode,
-      "targetMobile": mobileNumber,
-      "CustomerSMS": null
+      productcode: productCode,
+      targetMobile: mobileNumber,
+      CustomerSMS: message,
     };
 
     if (message != null) {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message;
+      payload.CustomerSMS = message + ' - Data Bundle Recharge through HotRecharge (ModestNerds, Co) successful.';
+    } else {
+      payload.CustomerSMS = 'Data Bundle Recharge through HotRecharge (ModestNerds, Co) successful.';
     }
 
+    logger.info(`Data Bundle Recharge(Product Code: $${payload.productcode}, Target Mobile: ${payload.targetMobile}, CustomerSMS: ${payload.CustomerSMS})`);
+
+
     this.url = this.rootEndpoint + this.apiVersion + this.rechargeData;
-    return await this.processHttpsPostRequest(payload);
+    return await this.post(payload);
   }
 
   /**
    * Query transaction
    * @param agentReference Agent reference for the transaction
    */
-  public async queryTransactionReference (agentReference: string) {
-    this.updateReference();
+  public async queryTransactionReference(agentReference: string) {
+    this.updateRequestReference();
+    logger.info('Checking transaction reference');
     this.url = this.rootEndpoint + this.apiVersion + this.queryTransaction + agentReference;
-    return await this.processHttpsGetRequest();
+    return await this.get();
   }
 
   /**
    * Get list of available data bundle options
    */
-  public async getDataBundleOptions () {
+  public async getDataBundleOptions() {
+    logger.info('Checking data bundle options')
     this.url = this.rootEndpoint + this.apiVersion + this.getDataBundle;
-    return await this.processHttpsGetRequest();
+    return await this.get();
   }
-
-  // private methods
 
   /**
    * Process Get Request With Axios
    * @private
    */
-  private async processHttpsGetRequest () {
-    this.updateReference();
+  private async get() {
+    this.updateRequestReference();
     try {
-      const response = await axios.get(this.url,{
+      const response = await axios.get(this.url, {
         headers: this.headers,
         timeout: 45000,
-        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
+        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!',
       });
       return response.data;
     } catch (error) {
@@ -178,13 +196,13 @@ export default class HotRecharge {
    * @param data Data to post with request
    * @private
    */
-  private async processHttpsPostRequest (data: object) {
-    this.updateReference();
+  private async post(data: object) {
+    this.updateRequestReference();
     try {
       const response = await axios.post(this.url, data, {
         headers: this.headers,
         timeout: 45000,
-        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!'
+        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!',
       });
       return response.data;
     } catch (error) {
@@ -209,21 +227,20 @@ export default class HotRecharge {
 
   /**
    * Generate random merchant reference
-   * @param length Length of reference to be generated
    * @returns Unique merchant reference
    * @private
    */
   private static generateReference(): string {
     const randomUuid: string = uuid.v4();
-    const result: string = randomUuid.split('-').join("");
-    return result;
+    return randomUuid.split('-').join('');
   }
 
   /**
    * Auto update merchant reference
    * @private
    */
-  private updateReference () {
-      this.headers["x-agent-reference"] = HotRecharge.generateReference();
+  private updateRequestReference() {
+    logger.info('Updating request reference')
+    this.headers['x-agent-reference'] = HotRecharge.generateReference();
   }
 }
