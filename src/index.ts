@@ -1,1 +1,1 @@
-export {default as HotRecharge} from './service/hotrecharge';
+export {default as HotRecharge} from './service/hot-recharge';
