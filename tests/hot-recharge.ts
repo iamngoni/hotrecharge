@@ -5,7 +5,7 @@
 //  Created by Ngonidzashe Mangudya on 1/2/2023.
 
 // tslint:disable-next-line:only-arrow-functions
-import { HotRecharge } from '../src';
+import { Currency, HotRecharge } from '../src';
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -46,8 +46,9 @@ describe('testing hotrecharge service', function() {
     expect(response.ReplyCode).toBe(2);
   })
 
+  // tslint:disable-next-line:only-arrow-functions
   test('pinlessRecharge', async function() {
-    const response = await hotRecharge.pinlessRecharge(0.1, '0777213388', 'ModestNerds');
+    const response = await hotRecharge.pinlessRecharge(0.1, '0777213388', 'ModestNerds','', Currency.USD);
     expect(response.ReplyCode).toBe(2);
   })
 })

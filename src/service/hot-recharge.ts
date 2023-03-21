@@ -5,8 +5,7 @@ import PinLessRecharge from '../interfaces/pinless-recharge';
 import DataBundle from '../interfaces/data-bundle';
 import { logger } from '../utils/logger';
 import ZesaRecharge from '../interfaces/zesa-recharge';
-import { Constants } from '../utils/constants'
-import HotRechargeError from '../errors/hot-recharge-error';
+import { Constants, Currency } from '../utils/constants';
 import HotRechargeErrorHandler from '../errors/hot-recharge-error-handler';
 
 
@@ -104,7 +103,7 @@ export default class HotRecharge {
    * }
    * ```
    */
-  public async pinlessRecharge(amount: number, mobileNumber: string, brandId: string = null, message: string = null) {
+  public async pinlessRecharge(amount: number, mobileNumber: string, brandId: string = null, message: string = null, currency = Currency.ZWL) {
     const payload: PinLessRecharge = {
       amount,
       targetMobile: mobileNumber,
@@ -127,7 +126,12 @@ export default class HotRecharge {
 
     logger.info(`Pinless Recharge(Amount: $${payload.amount}, Target Mobile: ${payload.targetMobile}, Brand ID: ${payload.BrandID}, CustomerSMS: ${payload.CustomerSMS})`);
 
-    this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_PINLESS;
+    if (currency == Currency.ZWL) {
+      this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_PINLESS;
+    } else {
+      this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_PINLESS_USD;
+    }
+
     return await this.post(payload);
   }
 

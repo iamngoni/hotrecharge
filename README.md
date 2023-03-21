@@ -34,7 +34,7 @@ const HotRecharge = require("hotrecharge").HotRecharge;
 or
 
 ```typescript
-const { HotRecharge } = require("hotrecharge");
+const { HotRecharge, Currency } = require("hotrecharge");
 ```
 
 #### Declare and instantiate a new instance of HotRecharge
@@ -49,7 +49,9 @@ const recharge = new HotRecharge({
 #### Direct airtime recharge of user's mobile account
 
 ```typescript
-let response = await recharge.pinlessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS')
+import { Currency } from './constants';
+
+let response = await recharge.pinlessRecharge('amount', 'targetMobile', 'BrandID', 'CustomerSMS', Currency.ZWL)
 ```
 
 ##### Sample Response
