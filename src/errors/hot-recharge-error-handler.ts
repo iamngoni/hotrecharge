@@ -12,84 +12,77 @@ import HotRechargeError, {
   PrepaidPlatformFailError, RechargeAmountLimitError, TransactionNotFoundError, WebServiceError,
 } from './hot-recharge-error';
 
-export default class HotRechargeErrorHandler {
-  private response: any;
-  private is429_401: number;
+export default function hotRechargeErrorHandler(response, statusCode: number = null): HotRechargeError {
+  return processResponse(response, statusCode)
+}
 
-  constructor(response, is429_401: number = null) {
-    this.response = response
-    this.is429_401 = is429_401
-    this.processResponse()
-  }
+/**
+ * process api response for errors
+ * @private
+ * @throws HotRechargeError
+ */
+function processResponse(response = null, statusCode: number): HotRechargeError {
+  const message = messageRetriever(response)
 
-  /**
-   * process api response for errors
-   * @private
-   * @throws HotRechargeError
-   */
-  private processResponse() {
-    const message = this.messageRetriever()
-
-    if (this.response.hasOwnProperty('ReplyCode')) {
-      if (Number(this.response.ReplyCode) != 2) {
-        let error = this.switcher(message)[Number(this.response.ReplyCode)]
-        if (error == null) {
-          error = new HotRechargeError(message, this.response)
-        }
-
-        return error
-      }
-    }
-
-    if (this.is429_401){
-      let error = this.switcher(message)[Number(this.is429_401)]
+  if (response?.data.hasOwnProperty('ReplyCode')) {
+    if (Number(response.data.ReplyCode) != 2) {
+      let error = switcher(message, response)[Number(response.data.ReplyCode)]
       if (error == null) {
-        error = new HotRechargeError(message, this.response)
+        error = new HotRechargeError(message, response)
       }
 
       return error
     }
-
-    return new HotRechargeError(message, this.response)
   }
 
-  private switcher(message) {
-    const api_error_map = {
-      4: new PendingZesaTransactionError(message, this.response),
-      206: new PrepaidPlatformFailError(message, this.response),
-      208: new InsufficientBalanceError(message, this.response),
-      209: new OutOfPinStockError(message, this.response),
-      210: new PrepaidPlatformFailError(message, this.response),
-      216: new DuplicateRequestError(message, this.response),
-      217: new InvalidContactError(message, this.response),
-      218: new AuthorizationError(message, this.response),
-      219: new WebServiceError(message, this.response),
-      220: new AuthorizationError(message, this.response),
-      221: new BalanceRequestError(message, this.response),
-      222: new RechargeAmountLimitError(message, this.response),
-      // -------- http status code -----------
-      401: new AuthorizationError(message, this.response),
-      429: new DuplicateReferenceError(message, this.response),
-      // -------------------------------------
-      800: new TransactionNotFoundError(message, this.response),
+  if (statusCode) {
+    let error = switcher(message, response)[Number(statusCode)]
+    if (error == null) {
+      error = new HotRechargeError(message, response)
     }
 
-    return api_error_map
+    return error
   }
 
-  private messageRetriever() {
-    if (this.response.data.hasOwnProperty('Message')) {
-      return this.response.data.Message
-    }
+  return new HotRechargeError(message, response)
+}
 
-    if (this.response.data.hasOwnProperty('ReplyMessage')) {
-      return this.response.data.ReplyMessage
-    }
+function switcher(message, response) {
+  const api_error_map = {
+    4: new PendingZesaTransactionError(message, response),
+    206: new PrepaidPlatformFailError(message, response),
+    208: new InsufficientBalanceError(message, response),
+    209: new OutOfPinStockError(message, response),
+    210: new PrepaidPlatformFailError(message, response),
+    216: new DuplicateRequestError(message, response),
+    217: new InvalidContactError(message, response),
+    218: new AuthorizationError(message, response),
+    219: new WebServiceError(message, response),
+    220: new AuthorizationError(message, response),
+    221: new BalanceRequestError(message, response),
+    222: new RechargeAmountLimitError(message, response),
+    // -------- http status code -----------
+    401: new AuthorizationError(message, response),
+    429: new DuplicateReferenceError(message, response),
+    // -------------------------------------
+    800: new TransactionNotFoundError(message, response),
+  }
 
-    if (this.response.data.hasOwnProperty('ReplyMsg')) {
-      return this.response.data.ReplyMsg
-    } else {
-      return JSON.stringify(this.response?.data).toString()
-    }
+  return api_error_map
+}
+
+function messageRetriever(response): string {
+  if (response?.data.hasOwnProperty('Message')) {
+    return response.data.Message
+  }
+
+  if (response?.data.hasOwnProperty('ReplyMessage')) {
+    return response.data.ReplyMessage
+  }
+
+  if (response?.data.hasOwnProperty('ReplyMsg')) {
+    return response.data.ReplyMsg
+  } else {
+    return 'Unknown error occurred. Probably network related, please check your internet connection!'
   }
 }

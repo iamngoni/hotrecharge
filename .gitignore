@@ -6,3 +6,5 @@ dist
 
 # ignore env files
 .env
+
+run.js

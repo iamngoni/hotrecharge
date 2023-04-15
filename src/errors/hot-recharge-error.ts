@@ -10,7 +10,7 @@
 export default class HotRechargeError extends Error {
   private response: any;
 
-  constructor(self, message, response=null) {
+  constructor(message: string, response=null) {
     super(message)
     this.response = response
   }

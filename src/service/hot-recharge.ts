@@ -6,7 +6,9 @@ import DataBundle from '../interfaces/data-bundle';
 import { logger } from '../utils/logger';
 import ZesaRecharge from '../interfaces/zesa-recharge';
 import { Constants, Currency } from '../utils/constants';
-import HotRechargeErrorHandler from '../errors/hot-recharge-error-handler';
+import hotRechargeErrorHandler from '../errors/hot-recharge-error-handler';
+import assert = require('assert');
+import HotRechargeError from '../errors/hot-recharge-error';
 
 
 export default class HotRecharge {
@@ -177,7 +179,6 @@ export default class HotRecharge {
 
     logger.info(`Data Bundle Recharge(Product Code: $${payload.productcode}, Target Mobile: ${payload.targetMobile}, CustomerSMS: ${payload.CustomerSMS})`);
 
-
     this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_DATA;
     return await this.post(payload);
   }
@@ -269,6 +270,10 @@ export default class HotRecharge {
    * ```
    */
   public async rechargeZesa(amount: number, notifyMobileNumber: string, meterNumber: string, message: string = null) {
+    if (amount < 21 || amount > 50000) {
+      throw new HotRechargeError('Amount has to be between $20 and $50000')
+    }
+
     const payload: ZesaRecharge = {
       Amount: amount,
       TargetNumber: notifyMobileNumber,
@@ -286,6 +291,7 @@ export default class HotRecharge {
     }
 
     logger.info(`Zesa Recharge(Amount: $${payload.Amount}, Notify Mobile Number: ${payload.TargetNumber}, Meter Number: ${payload.meterNumber}, CustomerSMS: ${payload.CustomerSMS})`);
+    this.logObject(payload)
 
     this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_ZESA;
     return await this.post(payload);
@@ -396,11 +402,9 @@ export default class HotRecharge {
     try {
       const response = await axios.get(this.url, {
         headers: this.headers,
-        timeout: 45000,
-        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!',
+        timeout: 60000,
+        timeoutErrorMessage: 'Request timed out (1 minute). Try again!',
       });
-      logger.info('Response Data');
-      this.logObject(response.data)
       return response.data;
     } catch (error) {
       return
@@ -417,18 +421,17 @@ export default class HotRecharge {
     try {
       const response = await axios.post(this.url, data, {
         headers: this.headers,
-        timeout: 45000,
-        timeoutErrorMessage: 'Request timed out (45 seconds). Try again!',
+        timeout: 60000,
+        timeoutErrorMessage: 'Request timed out (1 minute). Try again!',
       });
-      logger.info('Response Data');
-      this.logObject(response.data)
 
       return response.data;
     } catch (error) {
+      logger.error(error)
       if (error?.response?.statusCode == 401 || error?.response?.statusCode == 429) {
-        throw new HotRechargeErrorHandler(error.response, error.response.statusCode)
+        throw hotRechargeErrorHandler(error.response, error.response.statusCode)
       }
-      throw new HotRechargeErrorHandler(error.response)
+      throw hotRechargeErrorHandler(error.response)
     }
   }
 
