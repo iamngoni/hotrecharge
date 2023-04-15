@@ -1,3 +1,7 @@
+## 2.0.2
+- fix for `rechargeZesa` method
+- changed `HotRechargeErrorHandler` from class to method
+
 ## 2.0.1
 - ability to purchase USD airtime
 
