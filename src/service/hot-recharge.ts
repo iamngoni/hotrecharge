@@ -114,16 +114,16 @@ export default class HotRecharge {
     };
 
     if (brandId == null) {
-      payload.BrandID = 'ModestNerds, Co';
+      payload.BrandID = 'ModestNerds, Co (https://modestnerds.co)';
     }
 
     if (message != null) {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Airtime Recharge of $' + payload.amount + ' through ModestNerds, Co successful.';
+      payload.CustomerSMS = message;
     } else {
-      payload.CustomerSMS = 'Airtime Recharge of $' + payload.amount + ' through ModestNerds, Co successful.';
+      payload.CustomerSMS = `Airtime Recharge of $${payload.amount} through HotRecharge JS plugin successful.`;
     }
 
     logger.info(`Pinless Recharge(Amount: $${payload.amount}, Target Mobile: ${payload.targetMobile}, Brand ID: ${payload.BrandID}, CustomerSMS: ${payload.CustomerSMS})`);
@@ -172,9 +172,9 @@ export default class HotRecharge {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Data Bundle Recharge  through ModestNerds, Co successful.';
+      payload.CustomerSMS = message;
     } else {
-      payload.CustomerSMS = 'Data Bundle Recharge  through ModestNerds, Co successful.';
+      payload.CustomerSMS = 'Data bundle recharge through HotRecharge JS plugin successful.';
     }
 
     logger.info(`Data Bundle Recharge(Product Code: $${payload.productcode}, Target Mobile: ${payload.targetMobile}, CustomerSMS: ${payload.CustomerSMS})`);
@@ -285,13 +285,12 @@ export default class HotRecharge {
       if (message.length > 135) {
         throw new Error('Message exceeds character limit of 135');
       }
-      payload.CustomerSMS = message + ' - Zesa Recharge of $' + payload.Amount + ' through ModestNerds, Co successful.';
+      payload.CustomerSMS = message;
     } else {
-      payload.CustomerSMS = 'Zesa Recharge of $' + payload.Amount + ' through ModestNerds, Co successful.';
+      payload.CustomerSMS = `Zesa token top-up of $${payload.Amount} through HotRecharge JS plugin successful.`;
     }
 
     logger.info(`Zesa Recharge(Amount: $${payload.Amount}, Notify Mobile Number: ${payload.TargetNumber}, Meter Number: ${payload.meterNumber}, CustomerSMS: ${payload.CustomerSMS})`);
-    this.logObject(payload)
 
     this.url = this.rootEndpoint + this.apiVersion + Constants.RECHARGE_ZESA;
     return await this.post(payload);
