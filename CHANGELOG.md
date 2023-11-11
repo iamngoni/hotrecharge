@@ -1,4 +1,4 @@
-## 2.0.4+1
+## 3.0.0
 - fix missing folders
 
 ## 2.0.4
