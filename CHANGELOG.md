@@ -1,3 +1,9 @@
+## 2.0.4+1
+- fix missing folders
+
+## 2.0.4
+- rechargeZesa
+
 ## 2.0.2
 - fix for `rechargeZesa` method
 - changed `HotRechargeErrorHandler` from class to method
